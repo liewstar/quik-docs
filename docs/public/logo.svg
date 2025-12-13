@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a855f7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c084fc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景圆形 -->
+  <circle cx="64" cy="64" r="60" fill="url(#grad1)" opacity="0.1"/>
+  
+  <!-- Q 字母主体 -->
+  <path d="M64 20 C38 20 20 42 20 64 C20 86 38 108 64 108 C78 108 90 100 98 88 L108 98 L118 88 L104 74 C106 71 108 68 108 64 C108 42 90 20 64 20 Z M64 36 C80 36 92 50 92 64 C92 78 80 92 64 92 C48 92 36 78 36 64 C36 50 48 36 64 36 Z" 
+        fill="url(#grad1)"/>
+  
+  <!-- 闪电符号 (代表快速) -->
+  <path d="M58 44 L50 64 L60 64 L54 84 L78 58 L66 58 L74 44 Z" 
+        fill="white" opacity="0.95"/>
+</svg>
