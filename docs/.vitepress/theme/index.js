@@ -5,12 +5,16 @@ import './style/blur.css'
 import './style/hidden.css'
 import './style/var.css'
 import './style/rainbow.css'
+import Layout from './components/Layout.vue'
+// 暗黑样式
+import './style/dark.css'
 
 // 彩虹背景动画样式
 let homePageStyle
 
 export default {
   extends: DefaultTheme,
+  Layout: Layout,
 
   enhanceApp({ app, router }) {
     // 彩虹背景动画样式

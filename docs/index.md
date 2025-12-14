@@ -13,66 +13,89 @@ hero:
       text: 🚀 快速开始
       link: /guide/getting-started
     - theme: alt
-      text: 📖 查看API
-      link: /api/overview
+      text: 📖 简介
+      link: /guide/introduction
     - theme: alt
       text: ⭐ GitHub
       link: https://github.com/liewstar/quik
 
 features:
   - icon: 📝
-    title: XML声明式UI
-    details: 使用简洁的XML语法定义界面，无需学习QML，降低学习成本
+    title: XML声明式 + 响应式绑定
+    details: XML定义UI结构，$表达式实现条件渲染，变量修改UI自动更新
   - icon: 🔄
-    title: 双向数据绑定
-    details: 自动同步UI和数据，修改变量UI自动更新，UI变化自动同步到变量
+    title: q-for 循环渲染
+    details: 数据驱动的列表渲染，动态增删数据自动同步UI
   - icon: ⚡
-    title: 条件表达式
-    details: 支持visible/enabled条件绑定，轻松实现动态显示/隐藏逻辑
+    title: UI热更新
+    details: 开发时修改XML文件，UI实时刷新，无需重新编译
   - icon: 🎯
-    title: 类型安全
-    details: QuikViewModel提供类型安全的变量访问，IDE智能补全支持
-  - icon: 🧩
-    title: 丰富组件
-    details: 内置常用Qt组件，支持自定义组件扩展
-  - icon: 🚀
-    title: 轻量高效
-    details: 纯C++实现，无额外运行时依赖，编译为静态库
+    title: 变量即UI
+    details: vm.var像普通变量一样使用，赋值即更新UI
 ---
 
 <div class="vp-doc" style="padding: 0 24px; max-width: 1152px; margin: 0 auto;">
 
-## 快速一览
+## 20行代码，看见联动与动态列表
 
-```xml [XML 界面]
+  - **联动**：勾选启用后，滑块/下拉框自动可用
+  - **共享变量**：同一个 `volume` 同步驱动 Slider + ProgressBar
+  - **动态列表**：点击按钮即时追加下拉选项（`q-for`）
+  - **实时响应**：音量变化即时更新提示文本（`watch`）
+  - **按钮交互**：点击按钮追加模式选项
+
+ <!-- <div style="margin: 14px 0 18px;">
+   <video
+     src="/quik-docs/demo.mp4"
+     autoplay
+     loop
+     muted
+     playsinline
+     controls
+     style="width: 100%; max-width: 960px; border-radius: 12px; box-shadow: 0 10px 30px rgb(0 0 0 / 20%);"
+   ></video>
+ </div> -->
+ 
+```xml[Panel.xml]
 <Panel>
-    <GroupBox title="设置">
-        <CheckBox title="启用" var="chkEnable" default="1"/>
-        <LineEdit title="数值" var="txtValue" visible="$chkEnable==1"/>
-    </GroupBox>
+    <CheckBox title="启用联动" var="enable" default="1"/>
+    <LineEdit title="提示" var="message" enabled="0"/>
+    <Slider title="音量" var="volume" min="0" max="100" enabled="$enable==1"/>
+    <ProgressBar var="volume" min="0" max="100"/>
+    <ComboBox title="模式" var="mode" enabled="$enable==1">
+        <Choice q-for="item in modes" text="$item.label" val="$item.value"/>
+    </ComboBox>
+    <HLayoutWidget>
+        <addStretch/>
+        <PushButton text="添加模式" var="btnAddMode"/>
+    </HLayoutWidget>
 </Panel>
 ```
 
-```cpp [C++ 代码]
-#include "Quik/Quik.h"
-
-// 从XML构建UI
+```cpp[main.cpp]
 Quik::XMLUIBuilder builder;
-QWidget* ui = builder.buildFromFile("MyPanel.xml"); // [!code focus]
+QWidget* ui = Quik_BUILD(builder, "Panel.xml");  // 自动启用热更新
 
-// 类型安全的变量访问
 Quik::QuikViewModel vm(&builder);
-auto enabled = vm.var<bool>("chkEnable"); // [!code focus]
-auto value = vm.var<double>("txtValue"); // [!code focus]
+auto enable = vm.var<bool>("enable");
+auto message = vm.var<QString>("message");
+auto volume = vm.var<int>("volume");
+auto mode = vm.var<QString>("mode");
+auto modes = vm.list("modes");
+auto btnAddMode = vm.button("btnAddMode");
 
-// 像普通变量一样使用
-if (enabled) {
-    value = 100.0;  // UI自动更新 // [!code focus]
-}
+modes = {
+    {{"label", "快速"}, {"value", "fast"}},
+    {{"label", "标准"}, {"value", "normal"}},
+    {{"label", "精确"}, {"value", "accurate"}}
+};
 
-// 监听变化
-builder.watch("chkEnable", [](const QVariant& v) {
-    qDebug() << "Enable changed:" << v.toBool();
+volume.watch([&](int v) {
+    message = QString("当前音量：%1").arg(v);
+});
+
+btnAddMode.onClick([&]() {
+    modes.append({{"label", "自定义"}, {"value", "custom"}});
 });
 ```
 

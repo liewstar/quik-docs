@@ -32,20 +32,20 @@ export default {
     ['meta', { name: 'og:description', content: '无需QML，用XML声明式构建Qt响应式界面' }],
   ],
   
+  appearance: 'dark',  // 默认暗黑主题
+  
   themeConfig: {
     logo: '/logo.svg',
     siteTitle: 'Quik',
     
     nav: [
       { text: '📖 指南', link: '/guide/introduction' },
-      { text: '🔧 API', link: '/api/overview' },
-      { text: '💡 示例', link: '/examples/basic' },
     ],
     
     sidebar: {
       '/guide/': [
         {
-          text: '入门',
+          text: '开始',
           items: [
             { text: '简介', link: '/guide/introduction' },
             { text: '快速开始', link: '/guide/getting-started' },
@@ -54,43 +54,12 @@ export default {
         },
         {
           text: '核心概念',
+          link: '/guide/core-concepts',
           items: [
-            { text: 'XML语法', link: '/guide/xml-syntax' },
-            { text: '数据绑定', link: '/guide/data-binding' },
-            { text: '条件表达式', link: '/guide/expressions' },
-            { text: 'ViewModel', link: '/guide/viewmodel' }
-          ]
-        },
-        {
-          text: '组件',
-          items: [
-            { text: '组件概览', link: '/guide/widgets-overview' },
-            { text: '输入组件', link: '/guide/input-widgets' },
-            { text: '容器组件', link: '/guide/container-widgets' },
-            { text: '布局组件', link: '/guide/layout-widgets' }
-          ]
-        }
-      ],
-      '/api/': [
-        {
-          text: 'API参考',
-          items: [
-            { text: '概览', link: '/api/overview' },
-            { text: 'XMLUIBuilder', link: '/api/xmluibuilder' },
-            { text: 'QuikViewModel', link: '/api/viewmodel' },
-            { text: 'QuikContext', link: '/api/context' },
-            { text: 'ExpressionParser', link: '/api/expression-parser' },
-            { text: 'WidgetFactory', link: '/api/widget-factory' }
-          ]
-        }
-      ],
-      '/examples/': [
-        {
-          text: '示例',
-          items: [
-            { text: '基础示例', link: '/examples/basic' },
-            { text: '表单示例', link: '/examples/form' },
-            { text: '高级用法', link: '/examples/advanced' }
+            { text: '声明式 UI', link: '/guide/declarative-ui' },
+            { text: '响应式绑定', link: '/guide/reactive-bindng' },
+            { text: '循环渲染 (q-for)', link: '/guide/list-rendering' },
+            { text: 'UI 热更新', link: '/guide/hot-reload' }
           ]
         }
       ]
@@ -102,7 +71,7 @@ export default {
     
     footer: {
       message: '基于 MIT 协议开源',
-      copyright: 'Copyright © 2025 Quik | 用 ❤️ 构建'
+      copyright: 'Copyright © 2025 Quik'
     },
     
     editLink: {
