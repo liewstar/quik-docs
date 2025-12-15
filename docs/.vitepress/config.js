@@ -40,6 +40,7 @@ export default {
     
     nav: [
       { text: '📖 指南', link: '/guide/introduction' },
+      { text: '🎮 演练场', link: '/guide/playground' },
     ],
     
     sidebar: {
@@ -60,6 +61,13 @@ export default {
             { text: '响应式绑定', link: '/guide/reactive-bindng' },
             { text: '循环渲染 (q-for)', link: '/guide/list-rendering' },
             { text: 'UI 热更新', link: '/guide/hot-reload' }
+          ]
+        },
+        {
+          text: '工具',
+          items: [
+            { text: '🎮 在线演练场', link: '/guide/playground' },
+            { text: '💻 VSCode 插件', link: '/guide/vscode-extension' }
           ]
         }
       ]
