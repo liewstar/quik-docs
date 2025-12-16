@@ -20,6 +20,10 @@ export default {
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Quik - Reactive XML UI Framework' }],
     ['meta', { name: 'og:description', content: 'Build reactive Qt UIs with XML - no QML required' }],
+    // 预加载 Playground WASM 文件
+    ['link', { rel: 'prefetch', href: '/quik-docs/playground/quik-preview.js' }],
+    ['link', { rel: 'prefetch', href: '/quik-docs/playground/quik-preview.wasm' }],
+    ['link', { rel: 'prefetch', href: '/quik-docs/playground/qtloader.js' }],
   ],
   
   appearance: 'dark',  // 默认暗黑主题
