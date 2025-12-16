@@ -3,18 +3,18 @@
     <div class="playground-container">
       <div class="editor-panel">
         <div class="panel-header">
-          <span class="panel-title">📝 XML 编辑器</span>
+          <span class="panel-title">📝 {{ isZh ? 'XML 编辑器' : 'XML Editor' }}</span>
           <button class="run-btn" @click="runCode" :disabled="!isReady">
-            {{ isReady ? '▶ 运行' : '⏳ 加载中...' }}
+            {{ isReady ? (isZh ? '▶ 运行' : '▶ Run') : (isZh ? '⏳ 加载中...' : '⏳ Loading...') }}
           </button>
         </div>
         <div ref="editorContainer" class="code-editor"></div>
       </div>
       <div class="preview-panel">
         <div class="panel-header">
-          <span class="panel-title">👁 预览</span>
+          <span class="panel-title">👁 {{ isZh ? '预览' : 'Preview' }}</span>
           <span class="status" :class="{ ready: isReady, loading: !isReady }">
-            {{ isReady ? '✓ 就绪' : '加载 WASM...' }}
+            {{ isReady ? (isZh ? '✓ 就绪' : '✓ Ready') : (isZh ? '加载 WASM...' : 'Loading WASM...') }}
           </span>
         </div>
         <div class="preview-container">
@@ -38,20 +38,48 @@ import { xml } from '@codemirror/lang-xml'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { defaultKeymap } from '@codemirror/commands'
 
-const initialXml = `<Panel>
+const initialXmlZh = `<Panel>
     <Label text="欢迎使用 Quik!" alignment="center"/>
     <LineEdit title="姓名" var="name" default=""/>
     <Slider title="数值" var="value" min="0" max="100"/>
     <ProgressBar var="value" min="0" max="100"/>
-    <CheckBox title="启用选项" var="enabled" default="1"/>
-    <PushButton text="点击我"/>
+    <CheckBox title="启用按钮" var="btnActive" default="0"/>
+    <PushButton text="点击我" enabled="$btnActive==1"/>
+    <CheckBox title="显示提示" var="showTip" default="0"/>
+    <Label text="✓ 提示已开启" visible="$showTip==1"/>
+    <Label text="✓ 滑块=50 且 提示开启" visible="$value==50 and $showTip==1"/>
     <addStretch/>
 </Panel>`
+
+const initialXmlEn = `<Panel>
+    <Label text="Welcome to Quik!" alignment="center"/>
+    <LineEdit title="Name" var="name" default=""/>
+    <Slider title="Value" var="value" min="0" max="100"/>
+    <ProgressBar var="value" min="0" max="100"/>
+    <CheckBox title="Enable Button" var="btnActive" default="0"/>
+    <PushButton text="Click Me" enabled="$btnActive==1"/>
+    <CheckBox title="Show Tip" var="showTip" default="0"/>
+    <Label text="✓ Tip enabled" visible="$showTip==1"/>
+    <Label text="✓ Slider=50 and Tip enabled" visible="$value==50 and $showTip==1"/>
+    <addStretch/>
+</Panel>`
+
+// 检测当前语言
+const isZh = ref(true)
+const initialXml = computed(() => isZh.value ? initialXmlZh : initialXmlEn)
 
 const editorContainer = ref(null)
 const editorView = shallowRef(null)
 const previewFrame = ref(null)
 const isReady = ref(false)
+
+// 检测语言环境
+function detectLanguage() {
+  if (typeof window !== 'undefined') {
+    const path = window.location.pathname
+    isZh.value = !path.includes('/en/')
+  }
+}
 
 // 获取编辑器内容
 function getXmlCode() {
@@ -124,7 +152,7 @@ function initEditor() {
   }])
   
   const state = EditorState.create({
-    doc: initialXml,
+    doc: initialXml.value,
     extensions: [
       lineNumbers(),
       highlightActiveLine(),
@@ -147,6 +175,7 @@ function initEditor() {
 }
 
 onMounted(() => {
+  detectLanguage()
   initEditor()
 })
 </script>

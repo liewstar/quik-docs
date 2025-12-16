@@ -76,16 +76,16 @@ enable.set(true);
 表达式语法：
 - `$变量名` - 引用变量值
 - `==` / `!=` - 比较运算符
-- `&&` / `||` - 逻辑运算符
+- `and` / `or` - 逻辑运算符
 
 复合条件示例：
 
 ```xml
 <!-- 同时满足两个条件才显示 -->
-<GroupBox title="高级设置" visible="$enable==1 && $mode==advanced"/>
+<GroupBox title="高级设置" visible="$enable==1 and $mode==advanced"/>
 
 <!-- 满足任一条件就显示 -->
-<Label text="提示" visible="$error==1 || $warning==1"/>
+<Label text="提示" visible="$error==1 or $warning==1"/>
 ```
 
 ::: warning 注意
